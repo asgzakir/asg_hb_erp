@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:replace="${pageTitle} :: title">App</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<div class="app-root">
+    <header class="topbar">
+        <div class="brand">MyApp</div>
+        <div class="top-right">
+            <span th:text="${fullName}">User</span>
+            <a th:href="@{/logout}">Logout</a>
+        </div>
+    </header>
+
+    <div class="main">
+        <aside class="sidebar">
+            <nav>
+                <ul>
+                    <li><a th:href="@{/dashboard}">Dashboard</a></li>
+
+                    <!-- admin-only menu items -->
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/users}">User Entry</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/roles}">Role Entry</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/assign}">User-Role Assignment</a></li>
+
+                    <!-- sample other menu -->
+                    <li><a th:href="@{/profile}">My Profile</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <section class="content">
+            <div th:replace="${content} :: content"></div>
+        </section>
+    </div>
+</div>
+</body>
+</html>
